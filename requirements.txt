@@ -1,1 +1,32 @@
+-e . # to run setup.py and install the new package 
+
+dill #to copy or move something
+from-root #check if it is root directory or not 
+notebook #to try jupyter notebook
+flask-cors
+flask
+
+# Base 
+matplotlib
+numpy
 opencv-python
+Pillow
+PyYAML
+requests
+scipy
+torch 
+torchvision
+tqdm
+
+# Logging 
+tensorboard
+
+
+# Plotting 
+pandas
+seaborn
+
+# Extras 
+ipython  # interactive notebook
+psutil  # system utilization
+thop  # FLOPs computation
