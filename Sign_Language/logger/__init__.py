@@ -16,6 +16,7 @@ os.makedirs(log_path, exist_ok=True)
 
 lOG_FILE_PATH = os.path.join(log_path, LOG_FILE)
 
+#save logs
 logging.basicConfig(
     filename=lOG_FILE_PATH,
     format= "[ %(asctime)s ] %(name)s - %(levelname)s - %(message)s",
