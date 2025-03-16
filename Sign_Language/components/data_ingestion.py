@@ -7,7 +7,7 @@ from Sign_Language.logger import logging
 from Sign_Language.exception import SignException
 from Sign_Language.entity.config_entity import DataIngestionConfig
 from Sign_Language.entity.artifact_entity import DataIngestionArtifact
-
+import gdown
 
 
 class DataIngestion:
@@ -21,7 +21,7 @@ class DataIngestion:
 
     def download_data(self) -> str:
         """
-        Fetch data from the specified URL.
+        Fetch data from Github URL.
         Returns the path of the downloaded zip file.
         """
         try:
@@ -39,6 +39,32 @@ class DataIngestion:
 
         except Exception as e:
             raise SignException(e, sys) 
+        
+    def download_data_Gdrive(self) -> str:
+        """
+        Fetch data from Google Drive.
+        Returns the path of the downloaded zip file.
+        """
+        try:
+            dataset_url = self.data_ingestion_config.data_download_url  # Google Drive file URL
+            zip_download_dir = self.data_ingestion_config.data_ingestion_dir  # Directory to save the file
+            os.makedirs(zip_download_dir, exist_ok=True)  # Create directory if it doesn't exist
+            
+            # Extract Google Drive file ID from the URL
+            file_id = dataset_url.split("/")[-2]
+            zip_file_path = os.path.join(zip_download_dir, "Sign_Language_Data.zip")  # Define the file path
+            
+            logging.info(f"Downloading data from Google Drive (ID: {file_id}) into {zip_file_path}")
+            
+            # Use gdown to download the file
+            gdown.download(f"https://drive.google.com/uc?id={file_id}", zip_file_path, quiet=False)
+
+            logging.info(f"Downloaded data from Google Drive into {zip_file_path}")
+
+            return zip_file_path  # Return the downloaded file path
+
+        except Exception as e:
+            raise SignException(e, sys)
         
 
     
@@ -72,7 +98,12 @@ class DataIngestion:
         """
         logging.info("Entered initiate_data_ingestion method of Data_Ingestion class")
         try:
-            zip_file_path = self.download_data()  # Download the dataset
+            # Download the dataset from Github
+            #zip_file_path = self.download_data()  
+
+            # Download the dataset from Google Drive
+            zip_file_path = self.download_data_Gdrive() 
+
             feature_store_path = self.extract_zip_file(zip_file_path)  # Extract the dataset
 
             # Create an artifact to store the paths of the downloaded and extracted files
