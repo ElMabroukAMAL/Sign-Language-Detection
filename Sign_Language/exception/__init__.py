@@ -1,6 +1,6 @@
 #to track the error in which module and which line exactly 
 
-import sys
+import sys # automatically get the info about the exception from the sys
 
 def error_message_detail(error, error_detail: sys):
     _, _, exc_tb = error_detail.exc_info()
