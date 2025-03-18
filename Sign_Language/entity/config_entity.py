@@ -16,7 +16,7 @@ training_pipeline_config:TrainingPipelineConfig = TrainingPipelineConfig()
 
 
 
-#inside the artifacts_dir it will create the data ingestion folder
+#in the artifacts_dir it will create the data ingestion folder
 @dataclass
 class DataIngestionConfig:
     data_ingestion_dir: str = os.path.join(
@@ -30,7 +30,7 @@ class DataIngestionConfig:
     data_download_url: str = DATA_DOWNLOAD_URL
 
 
-##inside the artifacts_dir it will create the data validation folder
+##in the artifacts_dir it will create the data validation folder
 @dataclass
 class DataValidationConfig:
     data_validation_dir: str = os.path.join(
@@ -42,3 +42,15 @@ class DataValidationConfig:
     required_file_list = DATA_VALIDATION_ALL_REQUIRED_FILES
 
 
+#in the artifacts_dir it will create the model trainer folder
+@dataclass
+class ModelTrainerConfig:
+    model_trainer_dir: str = os.path.join(
+        training_pipeline_config.artifacts_dir, MODEL_TRAINER_DIR_NAME
+    )
+
+    weight_name = MODEL_TRAINER_PRETRAINED_WEIGHT_NAME
+
+    no_epochs = MODEL_TRAINER_NO_EPOCHS
+
+    batch_size = MODEL_TRAINER_BATCH_SIZE

@@ -14,7 +14,7 @@ Pillow
 PyYAML
 requests
 scipy
-torch 
+torch==2.0.1
 torchvision
 tqdm
 

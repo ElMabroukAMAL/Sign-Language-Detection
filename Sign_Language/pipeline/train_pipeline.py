@@ -5,14 +5,16 @@ from Sign_Language.logger import logging
 from Sign_Language.exception import SignException
 from Sign_Language.components.data_ingestion import DataIngestion
 from Sign_Language.components.data_validation import DataValidation
-from Sign_Language.entity.config_entity import (DataIngestionConfig, DataValidationConfig)
-from Sign_Language.entity.artifact_entity import (DataIngestionArtifact, DataValidationArtifact)
+from Sign_Language.components.model_trainer import ModelTrainer
+from Sign_Language.entity.config_entity import (DataIngestionConfig, DataValidationConfig, ModelTrainerConfig)
+from Sign_Language.entity.artifact_entity import (DataIngestionArtifact, DataValidationArtifact, ModelTrainerArtifact)
 
 
 class TrainPipeline:
     def __init__(self):
         self.data_ingestion_config = DataIngestionConfig()
         self.data_validation_config = DataValidationConfig()
+        self.model_trainer_config = ModelTrainerConfig()
 
 
     def start_data_ingestion(self)-> DataIngestionArtifact:
@@ -56,6 +58,20 @@ class TrainPipeline:
         
 
 
+    def start_model_trainer(self) -> ModelTrainerArtifact:
+        try:
+            model_trainer = ModelTrainer(
+                model_trainer_config=self.model_trainer_config,
+            )
+            model_trainer_artifact = model_trainer.initiate_model_trainer()
+            
+            return model_trainer_artifact
+
+        except Exception as e:
+            raise SignException(e, sys)
+        
+
+
     def run_pipeline(self) -> None:
         """
         Run the training pipeline
@@ -65,6 +81,10 @@ class TrainPipeline:
             data_validation_artifact = self.start_data_validation(
                 data_ingestion_artifact=data_ingestion_artifact
             )
-    
+            if data_validation_artifact.validation_status == True:
+                model_trainer_artifact = self.start_model_trainer()
+            else:
+                raise Exception("Your data is not in correct format")
+
         except Exception as e:
             raise SignException(e, sys)   
