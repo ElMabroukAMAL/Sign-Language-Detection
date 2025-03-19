@@ -8,7 +8,7 @@ flask
 
 # Base 
 matplotlib
-numpy
+numpy==1.26.4
 opencv-python
 Pillow
 PyYAML
@@ -33,3 +33,6 @@ thop  # FLOPs computation
 
 #download data from Google Drive
 gdown
+
+
+ultralytics
