@@ -1,1 +1,0 @@
-# How to push the model to S3 bucket
